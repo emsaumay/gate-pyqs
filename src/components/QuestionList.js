@@ -1,61 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import Question from './Question';
-import '../css/QuestionList.css';
-import { subjects } from '../utils/subjects';
+import React, { useState, useEffect } from "react";
+import Question from "./Question";
+import "../css/QuestionList.css";
+import { subjects } from "../utils/subjects";
 
 const QuestionList = () => {
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [topicName, setTopicName] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [previousPage, setPreviousPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
     if (selectedSubject) {
       const url = `${process.env.REACT_APP_API_URL}format=json&subName=${selectedSubject}`;
       fetchQuestions(url);
+    } else if (selectedTopic) {
+      const url = `${process.env.REACT_APP_API_URL}format=json&topicName=${selectedTopic}`;
+      fetchQuestions(url);
     }
-  }, [selectedSubject]);
+  }, [selectedSubject, selectedTopic]);
 
   const fetchQuestions = (url) => {
     setLoading(true);
-    setError('');
-
     fetch(url)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setQuestions(data.results);
+        setPreviousPage(data.previous);
+        setNextPage(data.next);
         setLoading(false);
-
-        if (data.results.length === 0) {
-          setError('No questions found for the selected topic.');
-        }
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
         setLoading(false);
-        setError('Error fetching questions. Please try again later.');
       });
   };
 
   const handleSubjectChange = (event) => {
     setSelectedSubject(event.target.value);
-    setTopicName('');
-    setError('');
+    setSelectedTopic("");
   };
 
-  const handleTopicNameChange = (event) => {
-    setTopicName(event.target.value);
-    setError('');
-  };
-
-  const handleLoadQuestions = () => {
-    if (topicName) {
-      const url = `${process.env.REACT_APP_API_URL}format=json&topicName=${topicName}`;
-      fetchQuestions(url);
-    } else {
-      setError('Please enter a topic name.');
-    }
+  const handleTopicChange = (event) => {
+    setSelectedTopic(event.target.value);
+    setSelectedSubject("");
   };
 
   const handleOptionClick = (questionIndex, option) => {
@@ -66,9 +55,25 @@ const QuestionList = () => {
     setQuestions(updatedQuestions);
   };
 
+  const handlePreviousPage = () => {
+    if (previousPage) {
+      fetchQuestions(previousPage);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (nextPage) {
+      fetchQuestions(nextPage);
+    }
+  };
+
   return (
     <div className="question-list-container">
-      <h1 className="title">{selectedSubject ? `Questions - ${selectedSubject}` : 'Select a Subject'}</h1>
+      <h1 className="title">
+        {selectedSubject
+          ? `Questions - ${selectedSubject}`
+          : "Select a Subject"}
+      </h1>
       <div className="selection-container">
         <div className="subject-dropdown">
           <select value={selectedSubject} onChange={handleSubjectChange}>
@@ -83,28 +88,50 @@ const QuestionList = () => {
         <div className="topic-input">
           <input
             type="text"
-            placeholder="Enter topic name"
-            value={topicName}
-            onChange={handleTopicNameChange}
+            placeholder="Enter Topic"
+            value={selectedTopic}
+            onChange={handleTopicChange}
           />
-          <button onClick={handleLoadQuestions}>Load Questions</button>
         </div>
       </div>
-      {selectedSubject || topicName ? (
+      {selectedSubject || selectedTopic ? (
         <>
           {loading ? (
             <div className="loading-message">Loading questions...</div>
           ) : questions.length > 0 ? (
-            questions.map((question, index) => (
-              <Question
-                key={question.id}
-                question={question}
-                index={index}
-                handleOptionClick={handleOptionClick}
-              />
-            ))
+            <>
+              {questions.map((question, index) => (
+                <Question
+                  key={question.id}
+                  question={question}
+                  index={index}
+                  handleOptionClick={handleOptionClick}
+                />
+              ))}
+              <div className="pagination-buttons">
+                {previousPage && (
+                  <button
+                    onClick={handlePreviousPage}
+                    className="pagination-button"
+                  >
+                    Previous
+                  </button>
+                )}
+                {nextPage && (
+                  <button
+                    onClick={handleNextPage}
+                    className="pagination-button"
+                  >
+                    Next
+                  </button>
+                )}
+              </div>
+            </>
           ) : (
-            <div className="no-questions">{error ? error : 'No questions found for the selected topic.'}</div>
+            <div className="no-questions">
+              No questions found for the selected{" "}
+              {selectedSubject ? "subject" : "topic"}.
+            </div>
           )}
         </>
       ) : null}

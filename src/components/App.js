@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import QuestionList from '../components/QuestionList';
 import '../css/App.css';

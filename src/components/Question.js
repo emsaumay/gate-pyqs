@@ -1,4 +1,3 @@
-// Question.js
 import React, { useState } from 'react';
 
 const Question = ({ question, index, handleOptionClick }) => {
