@@ -1,0 +1,168 @@
+
+.solution-button {
+  margin-top: 10px;
+  background-color: #b5b0b0;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.solution-button:hover {
+  background-color: #bcb9b9;
+}
+
+.solution-container {
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.solution-heading {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.solution {
+  font-size: 16px;
+}
+
+.question-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.subject-dropdown {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.subject-dropdown select {
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.topic-input {
+  margin-top: 10px;
+}
+
+.topic-input input {
+  width: 200;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.topic-input button {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.topic-input button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.subject-dropdown select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.topic-input {
+  flex: 1;
+  display: flex;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.no-questions {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: red;
+}
+
+
+.question-container {
+  margin-bottom: 30px;
+}
+
+.question-number {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.question-text {
+  margin-bottom: 10px;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.option:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #c7e0c4;
+}
+
+.answer-message {
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.correct {
+  background-color: #b7e2b5;
+  color: green;
+}
+
+.incorrect {
+  background-color: #f9c0c0;
+  color: red;
+}
